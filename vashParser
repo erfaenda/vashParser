@@ -1,0 +1,32 @@
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+
+options = Options()
+options.set_headless(headless=True)
+driver = webdriver.Chrome()
+driver.get("https://vashkontrol.ru/hershel")
+login_form = driver.find_element_by_xpath("//input[@class='string required col-md-4']")
+password_form = driver.find_element_by_xpath("//input[@class='password required col-md-4']")
+sumbit_button = driver.find_element_by_xpath("//input[@class='btn btn btn-default btn-transparent']")
+login_form.send_keys('1431-11')
+password_form.send_keys('UUbsqA')
+sumbit_button.submit()
+driver.get("https://vashkontrol.ru/hershel/analytics/packets")
+#search_text = driver.find_element_by_xpath("//span[@class='key'][contains(text(), 'Количество импортированных услуг:')]")
+
+# запись в переменные интересующих нас данных
+last_data = driver.find_element_by_xpath("//ul[@class='overall-stats']/li[3]/div[2]/span")
+import_status = driver.find_element_by_xpath("//ul[@class='overall-stats']/li[4]/div[2]/span")
+last_packet_count = driver.find_element_by_xpath("//ul[@class='overall-stats']/li[5]/div[2]/span")
+#alldata = driver.find_element_by_xpath("//ul[@class='overall-stats']")
+#print(packet_count.text)
+rign = 'КГО1'
+# блок записи в файл
+handle = open("data.txt", "w")
+handle.write(rign + '   ' + str(last_data.text) + '   ' + str(import_status.text) + '   ' + str(last_packet_count.text))
+handle.close()
+#search_form = driver.find_element_by_xpath("//input[@class='gLFyf gsfi']")
+#print(login_form)
+#search_form.send_keys('как заплести косички?')
+#search_form.submit()
+driver.quit()
